@@ -36,3 +36,4 @@ end
 
 gem 'aws-sdk', '~> 2'
 gem 'react-rails', '~> 1.0'
+gem 'ruby-hmac'

@@ -1,5 +1,7 @@
 class HomeController < ApplicationController
 	
+  require 'base64'
+  require 'hmac-sha1'
 	require 'action_view'
 
 	include ActionView::Helpers::NumberHelper
@@ -16,6 +18,18 @@ class HomeController < ApplicationController
 		response = s3_get_tree(params[:path] || '')
 
 		render json: response
+
+	end
+
+	def sign_auth_upload
+
+    hmac = HMAC::SHA1.new(@@s3_secret_key)
+    
+    hmac.update(params["to_sign"])
+
+    encoded = Base64.encode64("#{hmac.digest}").gsub("\n",'')
+
+    render :text => encoded, :status => 200 and return
 
 	end
 

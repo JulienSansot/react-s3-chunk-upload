@@ -2,14 +2,14 @@ var RepositoryTable = React.createClass({
 
   getInitialState: function() {
 
-    var hash_params = $.parseParams((location.hash||'#').split('#')[1]);
+    // var hash_params = $.parseParams((location.hash||'#').split('#')[1]);
 
-    var path = hash_params.path || '';
+    // var path = hash_params.path || '';
 
     return({
       files: [],
       folders:[],
-      path: path,
+      path: this.props.path,
       loading: false
     });
   },
@@ -36,16 +36,17 @@ var RepositoryTable = React.createClass({
   	this.loadFiles();
   },
 
-  goIntoFolder: function (new_folder, event) {
-    event.preventDefault();
+  // goIntoFolder: function (new_folder, event) {
+  //   event.preventDefault();
 
-    this.setState({
-      path: new_folder.full_path
-    }, function(){
-      window.location = '#path=' + new_folder.full_path;
-      this.loadFiles();
-    });
-  },
+  //   this.setState({
+  //     path: new_folder.full_path
+  //   }, function(){
+  //     window.location = '#path=' + new_folder.full_path;
+  //     this.props.onChangePath(new_folder.full_path);
+  //     this.loadFiles();
+  //   });
+  // },
 
   changeFolder: function (new_folder, event) {
     event.preventDefault();
@@ -54,6 +55,7 @@ var RepositoryTable = React.createClass({
       path: new_folder.full_path
     }, function(){
       window.location = '#path=' + new_folder.full_path;
+      this.props.onChangePath(new_folder.full_path);
       this.loadFiles();
     });
   },
@@ -65,7 +67,7 @@ var RepositoryTable = React.createClass({
           <RepositoryTableRowFolder
             key={folder.full_path}
             folder={folder}
-            onGoIntoFolder={this.goIntoFolder.bind(this, folder)} />
+            onGoIntoFolder={this.changeFolder.bind(this, folder)} />
         )
     }, this);
 

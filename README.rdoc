@@ -2,7 +2,7 @@ This is a web interface to AWS S3 made with React.
 
 The uploading is made by chunks. It's much more reliable than the regular method.
 The files are sent directly to s3 in small chunked part.
-If one chunk fails, you don't have to resend the whole file but just the failed chunk.
+If one chunk fails, The browser doesn't have to resend the whole file but just the failed chunk.
 
 The back-end is in ruby on rails but it should be easy to make a different back-end.
 The most interesting part of this project is the front-end.
