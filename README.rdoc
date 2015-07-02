@@ -1,28 +1,8 @@
-== README
+This is a web interface to AWS S3 made with React.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+The uploading is made by chunks. It's much more reliable than the regular method.
+The files are sent directly to s3 in small chunked part.
+If one chunk fails, you don't have to resend the whole file but just the failed chunk.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+The back-end is in ruby on rails but it should be easy to make a different back-end.
+The most interesting part of this project is the front-end.
