@@ -13,8 +13,18 @@ var RepositoryUpload = React.createClass({
     })
 	},
 
-	selectFiles: function(e){		
-    event.preventDefault();
+	removeFile: function(file){	
+
+		var files = this.state.files;
+		var fileIndex = files.indexOf(file);
+		if (fileIndex > -1) {
+		  files.splice(fileIndex, 1);
+			this.setState({files: files});
+		}
+	},
+
+	selectFiles: function(e){
+    e.preventDefault();
 
 		var self = this;
 
@@ -35,6 +45,10 @@ var RepositoryUpload = React.createClass({
 					aws_url: self.props.s3_options.url,
 					logging: self.props.logging
 				});
+
+				var file = files[i];
+				file.progress = 0;
+				file.evaporate = evaporate;
       
 				evaporate.add({
 	        name: self.state.path + '' + files[i].name,
@@ -43,38 +57,22 @@ var RepositoryUpload = React.createClass({
 						// foo: 'bar'
 	     //    },
 	        complete: function(){
-						// console.log('complete................yay!');
 						self.props.onUploadComplete();
-
-						var files = self.state.files;
-						var fileIndex = files.indexOf(this.file);
-						if (fileIndex > -1) {
-						  files.splice(fileIndex, 1);
-							self.setState({files: files});
-						}
-
-	           // console.log(arguments);
+						self.removeFile(this.file);
 	        },
 	        progress: function(progress){
-						// console.log('making progress: ' + progress);
 						this.file.progress = progress;
+						this.file.upload = this;
 						self.setState({files: self.state.files});
 	        },
 	        cancelled: function(){
-	           console.log('---cancelled');
-	           console.log(arguments);
+						self.removeFile(this.file);
 	        },
-	        // info: function(){
-	        //    console.log('---info');
-	        //    console.log(JSON.stringify(arguments,null,2));
-	        // },
 	        warn: function(){
-	           console.log('---warn');
-	           console.log(arguments);
+	           // console.log('---warn');
 	        },
 	        error: function(){
 	           console.log('---error');
-	           console.log(arguments);
 	        }
 				});
 
@@ -83,6 +81,11 @@ var RepositoryUpload = React.createClass({
       
     $(e.target).val('');
 
+	},
+
+	onCancel: function(file, e){
+    e.preventDefault();
+    file.upload.stop();
 	},
 
 	render: function(){
@@ -95,10 +98,22 @@ var RepositoryUpload = React.createClass({
 
       return (
       	<div key={file.name}>
-					<span className="label-progress-bar">{file.name}</span>
+					<span className="label-progress-bar">
+					{file.name}
+					&nbsp;
+					<button type="button"
+						onClick={this.onCancel.bind(this, file)}
+						className="btn btn-danger btn-xs">
+						cancel
+					</button>
+					&nbsp;
+
+					</span>
+
 					<div className="progress">
 					  <div className="progress-bar progress-bar-striped active" style={style}></div>
 					</div>
+
       	</div>
       )
     }, this);
