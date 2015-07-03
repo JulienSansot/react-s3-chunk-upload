@@ -1,6 +1,9 @@
 var RepositoryUpload = React.createClass({
 
   getInitialState: function() {
+
+  	this.file_id = 0;
+
     return({
       path: this.props.path,
       files: []
@@ -11,6 +14,10 @@ var RepositoryUpload = React.createClass({
     this.setState({
       path: path
     })
+	},
+
+	refreshFilesState: function(){
+		this.setState({files: this.state.files});
 	},
 
 	removeFile: function(file){	
@@ -48,22 +55,26 @@ var RepositoryUpload = React.createClass({
 
 				var file = files[i];
 				file.progress = 0;
+				file.completed = false;
 				file.evaporate = evaporate;
-      
+      	file.file_id = ++self.file_id;
+
 				evaporate.add({
 	        name: self.state.path + '' + files[i].name,
-	        file: files[i],
+	        file: file,
 	     //    signParams: {
 						// foo: 'bar'
 	     //    },
 	        complete: function(){
 						self.props.onUploadComplete();
-						self.removeFile(this.file);
+						this.file.completed = true;
+						self.refreshFilesState();
+						// self.removeFile(this.file);
 	        },
 	        progress: function(progress){
 						this.file.progress = progress;
 						this.file.upload = this;
-						self.setState({files: self.state.files});
+						self.refreshFilesState();
 	        },
 	        cancelled: function(){
 						self.removeFile(this.file);
@@ -83,9 +94,28 @@ var RepositoryUpload = React.createClass({
 
 	},
 
-	onCancel: function(file, e){
+	onStop: function(file, e){
     e.preventDefault();
-    file.upload.stop();
+    if(file.completed){
+    	this.removeFile(file);
+    }
+    else{
+    	file.upload.stop();
+    }
+	},
+
+	humanFileSize: function(bytes) {
+    var thresh = 1024;
+    if(Math.abs(bytes) < thresh) {
+        return bytes + ' B';
+    }
+    var units = ['kB','MB','GB','TB','PB','EB','ZB','YB'];
+    var u = -1;
+    do {
+        bytes /= thresh;
+        ++u;
+    } while(Math.abs(bytes) >= thresh && u < units.length - 1);
+    return bytes.toFixed(1)+' '+units[u];
 	},
 
 	render: function(){
@@ -93,31 +123,41 @@ var RepositoryUpload = React.createClass({
 
 			var percent = Math.round(file.progress * 100);
 
+			pretty_size = this.humanFileSize(file.size);
+
 			var style = {
 				width: percent + '%'
 			}
 
       return (
 
-      	<div className="upload-queue-item" key={file.name}>
+      	<div className="upload-queue-item" key={file.file_id}>
           <div className="actions">
-              <a href="#" onClick={this.onCancel.bind(this, file)} ><i className="fa fa-times"></i></a>
-              <a href="#"><i className="fa fa-stop"></i></a>
-              <a href="#"><i className="fa fa-pause"></i></a>
-              <a href="#"><i className="fa fa-play"></i></a>
+              <a href="#" onClick={this.onStop.bind(this, file)} ><i className="fa fa-times"></i></a>
           </div>
-          <span >{file.name}</span>
-          <span > - {percent}%</span>
-          <div className="upload-progress">
-              <div className="upload-progress-bar" style={style}></div>
-          </div>
+          <span >{file.name} ({pretty_size})</span>
+	        {
+	            file.completed &&
+	           <span > - completed</span>
+	        }
+	        {
+	            !file.completed &&	            
+		          <span > - {percent}%</span>
+	        }
+	        {
+	            !file.completed &&
+		          <div className="upload-progress">
+		              <div className="upload-progress-bar" style={style}></div>
+		          </div>
+	        }
+
       	</div>
       )
     }, this);
 
 		return (
 			<div>
-				<div className="file-input-text">Drag and drop files to upload (or click)</div>
+				<div className="file-input-text">Drag and drop files to upload them (or click)</div>
 				<div className="file-input-container">
 					<input type="file" multiple onChange={this.selectFiles} />
 				</div>
