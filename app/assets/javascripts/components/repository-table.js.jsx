@@ -1,11 +1,6 @@
 var RepositoryTable = React.createClass({
 
   getInitialState: function() {
-
-    // var hash_params = $.parseParams((location.hash||'#').split('#')[1]);
-
-    // var path = hash_params.path || '';
-
     return({
       files: [],
       folders:[],
@@ -36,19 +31,7 @@ var RepositoryTable = React.createClass({
   	this.loadFiles();
   },
 
-  // goIntoFolder: function (new_folder, event) {
-  //   event.preventDefault();
-
-  //   this.setState({
-  //     path: new_folder.full_path
-  //   }, function(){
-  //     window.location = '#path=' + new_folder.full_path;
-  //     this.props.onChangePath(new_folder.full_path);
-  //     this.loadFiles();
-  //   });
-  // },
-
-  changeFolder: function (new_folder, event) {
+  onChangeFolder: function (new_folder, event) {
     event.preventDefault();
 
     this.setState({
@@ -60,6 +43,16 @@ var RepositoryTable = React.createClass({
     });
   },
 
+  onTriggerCreateFolder: function(event){
+    event.preventDefault();
+
+    this.refs.create_folder.start();
+  },
+
+  onFolderCreated: function(){    
+    this.loadFiles();
+  },
+
   render: function() {
 
     var folderRows = this.state.folders.map(function(folder) {
@@ -67,7 +60,7 @@ var RepositoryTable = React.createClass({
           <RepositoryTableRowFolder
             key={folder.full_path}
             folder={folder}
-            onGoIntoFolder={this.changeFolder.bind(this, folder)} />
+            onGoIntoFolder={this.onChangeFolder.bind(this, folder)} />
         )
     }, this);
 
@@ -77,10 +70,11 @@ var RepositoryTable = React.createClass({
 
     return (
     	<div>
+        <button type="button" className="btn btn-primary btn-xs" onClick={this.onTriggerCreateFolder}>Create Folder</button>
     		<div>
           <RepositoryTablePath
           path={this.state.path}
-          onChangeFolder={this.changeFolder} />
+          onChangeFolder={this.onChangeFolder} />
         </div>
 	      <table style={{marginBottom: 0}} className="table table-bordered table-hover table-condensed">
           <thead>
@@ -90,6 +84,11 @@ var RepositoryTable = React.createClass({
             </tr>
           </thead>
 	      	<tbody>
+            <RepositoryTableRowFolderCreation
+              ref="create_folder"
+              path={this.state.path}
+              create_folder_url={this.props.create_folder_url}
+              onFolderCreated={this.onFolderCreated} />
             {folderRows}
 		        {fileRows}
 	      	</tbody>
@@ -114,74 +113,3 @@ var RepositoryTable = React.createClass({
     )
   }
 });
-
-
-  // render() {
-		// const commentNodes = this.props.data.map((comment, i) => {
-  //     return (
-  //       <Comment author={comment.author} key={i}>
-  //         {comment.text}
-  //       </Comment>
-  //     )
-  //   })
-
-  //   return (
-  //     <div className="comment-list">
-  //       {commentNodes}
-  //     </div>
-  //   )
-  // }
-/*
-const React = require('react')
-const CommentList = require('./comment-list')
-const CommentForm = require('./comment-form')
-
-const CommentBox = React.createClass({
-	getInitialState() {
-    return { data: [] }
-  },
-
-  loadComments() {
-    fetch(this.props.url)
-      .then(response => response.json())
-      .then(data => this.setState({ data: data }))
-      .catch(err => console.error(this.props.url, err.toString()))
-  },
-
-  componentDidMount() {
-		this.loadComments()
-    setInterval(this.loadComments, this.props.pollInterval)
-  },
-
-  handleCommentSubmit(comment) {
-    const comments = this.state.data
-    const newComments = comments.concat([ comment ])
-
-    this.setState({ data: newComments })
-
-    fetch(this.props.url, {
-      method: 'post',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(comment)
-    })
-    .then(response => response.json())
-    .then(data => this.setState({ data: data }))
-    .catch(err => console.error(this.props.url, err.toString()))
-  },
-
-  render() {
-    return (
-      <div className="comment-box">
-        <h1>Comments</h1>
-        <CommentList data={this.state.data} />
-        <CommentForm onCommentSubmit={this.handleCommentSubmit} />
-      </div>
-    )
-  }
-})
-
-module.exports = CommentBox
-*/

@@ -58,56 +58,18 @@
   width: 100%;
   cursor: pointer;
 }
+
 .s3-manager input[type="file"]:after {
     display: block;
     min-width: 20em;
     margin: auto 40%;
 }
-/*.s3-manager input[type="file"]:hover{
-  border: 1px dashed #67a5c5;
-}*/
-
-/*.s3-manager input[type="file"]{
-  padding-bottom: 4em;
-  padding-top: 2em;
-  width: 100%;
-  border: 1px dashed #000;
-}
-
-.s3-manager input[type="file"]:after {
-    content: "Drag and drop files to upload (or click)";
-    display: block;
-    min-width: 20em;
-    margin: auto 40%;
-}
-
-.s3-manager input[type="file"]:hover{
-  border: 1px dashed #67a5c5;
-}
-
-
-.file-dropzone {
-	width: 500px;
-	height: 100px;
-	border-style:dashed;	border-width: 1px;
-}
-
-.file-dropzone input[type="file"]{
-	display: none;
-}
-
-.file-dropzone-text {
-	padding: 40px;
-}
-*/
-
-
-
 </style>
 
 <div class="s3-manager">
 		<%= react_component('Repository', {
-			files_url: '/get_files_as_tree',
+      files_url: '/get_files_as_tree',
+			create_folder_url: '/create_folder',
 			auth_sign_url: '/sign_auth_upload',
 			s3_options:{
 				access_key: Rails.application.secrets.s3_access_key,
@@ -117,94 +79,3 @@
 			logging: false
 		}) %>
 </div>
-
-
-<!-- 
-<div>
-   <input type="file" id="files"  multiple />
-<div>
-
-<br>
-<br>
-<br>
-<br>
-<div>
-
-   <main>
-       <section>
-           <div>
-               <form id="s3_upload" action="upload_dropzone" class="dropzone dz-clickable">
-                   <div class="dz-message">Drop files here or click to upload.</div>
-               </form>
-           </div>
-       </section>
-   </main>
-
-
-</div>
-
-
-<script>
-$(function(){
-   Dropzone.options.s3_upload = {
-     maxFilesize: 4000
-  };
-})
-</script>
-
-      
-
-<script language="javascript">
-
-   var files;
-   
-   var _e_ = new Evaporate({
-      signerUrl: '/sign_auth',
-      aws_key: 'AKIAIETTEVTO7HILBNEQ',
-      bucket: 'julien-s-bucket',
-      aws_url: 'https://s3-ap-northeast-1.amazonaws.com',
-      logging: false
-   });
-
-   $('#files').change(function(evt){
-      files = evt.target.files;
-      
-      for (var i = 0; i < files.length; i++){
-      
-         _e_.add({
-            name: 'testA/' + files[i].name,
-            file: files[i],
-            signParams: {
-							foo: 'testABCDEF'
-            },
-            complete: function(){
-               console.log('complete................yay!');
-               console.log(arguments);
-            },
-            progress: function(progress){
-               console.log('making progress: ' + progress);
-            },
-            cancelled: function(){
-               console.log('---cancelled');
-               console.log(arguments);
-            },
-            // info: function(){
-            //    console.log('---info');
-            //    console.log(JSON.stringify(arguments,null,2));
-            // },
-            warn: function(){
-               console.log('---warn');
-               console.log(arguments);
-            },
-            error: function(){
-               console.log('---error');
-               console.log(arguments);
-            }
-         });
-      }
-      
-      $(evt.target).val('');
-      
-   });
-
-</script> -->

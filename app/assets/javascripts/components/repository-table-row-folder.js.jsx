@@ -1,4 +1,4 @@
-RepositoryTableRowFolder = React.createClass({
+var RepositoryTableRowFolder = React.createClass({
 
   render: function() {
 

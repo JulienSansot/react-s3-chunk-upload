@@ -21,6 +21,29 @@ class HomeController < ApplicationController
 
 	end
 
+	def create_folder
+
+		folder_path = params[:folder_path]
+
+		if folder_path.blank? == false
+			if !folder_path.end_with?("/")
+				folder_path += '/'
+			end
+
+			s3_client = get_s3_client
+
+			s3_client.put_object({
+			  bucket: @@s3_bucket,
+			  key: folder_path, 
+		  })
+
+		end
+
+		render json: nil
+	end
+
+
+
 	def sign_auth_upload
 
     hmac = HMAC::SHA1.new(@@s3_secret_key)
