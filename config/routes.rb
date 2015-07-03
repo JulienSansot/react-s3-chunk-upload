@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get '/get_files_as_tree' => 'home#get_files_as_tree'
   get '/sign_auth_upload' => 'home#sign_auth_upload'
   get '/create_folder' => 'home#create_folder'
+  post '/delete_files' => 'home#delete_files'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

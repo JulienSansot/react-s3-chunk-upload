@@ -99,6 +99,7 @@ var RepositoryTableRowFolderCreation = React.createClass({
 
   	return (
       <tr>
+        <td></td>
         <td>
           <input ref="editField" className="form-control input-sm"
           value={this.state.folder_name}

@@ -1,12 +1,30 @@
+
+
+<div class="s3-manager">
+		<%= react_component('Repository', {
+      files_url: '/get_files_as_tree',
+			create_folder_url: '/create_folder',
+      auth_sign_url: '/sign_auth_upload',
+			delete_files_url: '/delete_files',
+			s3_options:{
+				access_key: Rails.application.secrets.s3_access_key,
+				bucket: Rails.application.secrets.s3_bucket,
+				url: Rails.application.secrets.s3_url
+			},
+			logging: false
+		}) %>
+</div>
+
+
+
 <style>
 
-
 .upload-queue{
-	margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .upload-queue-item {
-	border: 1px solid #ddd;
+  border: 1px solid #ddd;
   background-color:#F5F5F5;
   -webkit-border-radius:3px;
   -moz-border-radius:3px;
@@ -38,21 +56,21 @@
 }
 
 .s3-manager .file-input-container {
-	border: 1px dashed #ddd;
-	background-color: #F7F7F7;
+  border: 1px dashed #ddd;
+  background-color: #F7F7F7;
 }
 .s3-manager .file-input-container:hover {
-	border: 1px solid #ddd;
+  border: 1px solid #ddd;
 }
 
 .s3-manager .file-input-text {
   padding-top: 3em;
-	position: absolute;
+  position: absolute;
   margin: auto 30%;
 }
 
 .s3-manager input[type="file"]{
-	opacity: 0;
+  opacity: 0;
   padding-bottom: 4em;
   padding-top: 2em;
   width: 100%;
@@ -65,17 +83,3 @@
     margin: auto 40%;
 }
 </style>
-
-<div class="s3-manager">
-		<%= react_component('Repository', {
-      files_url: '/get_files_as_tree',
-			create_folder_url: '/create_folder',
-			auth_sign_url: '/sign_auth_upload',
-			s3_options:{
-				access_key: Rails.application.secrets.s3_access_key,
-				bucket: Rails.application.secrets.s3_bucket,
-				url: Rails.application.secrets.s3_url
-			},
-			logging: false
-		}) %>
-</div>

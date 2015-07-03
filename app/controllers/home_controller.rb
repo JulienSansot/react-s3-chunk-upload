@@ -42,6 +42,33 @@ class HomeController < ApplicationController
 		render json: nil
 	end
 
+	def delete_files
+
+		s3_client = get_s3_client
+
+		keys_to_delete = params[:files] || []
+
+		(params[:folders]||[]).each{ |folder|
+
+			resp = s3_client.list_objects(bucket: @@s3_bucket, prefix: folder)
+
+			resp.contents.each{ |f|
+				keys_to_delete << f[:key]
+			}
+		}
+
+		s3_client.delete_objects({
+		  bucket: @@s3_bucket, 
+		  delete: { # required
+		    objects: keys_to_delete.map{|key|
+		    	{key:key}
+		    }
+		  }
+		})
+
+		render json: nil
+	end
+
 
 
 	def sign_auth_upload

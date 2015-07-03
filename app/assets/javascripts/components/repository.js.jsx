@@ -36,6 +36,7 @@ var Repository = React.createClass({
 					path={this.state.path}
 		      url={this.props.files_url}
           create_folder_url={this.props.create_folder_url}
+          delete_files_url={this.props.delete_files_url}
 		      onChangePath={this.tableChangedPath} />
       </div>
     )
