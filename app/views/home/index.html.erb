@@ -1,30 +1,110 @@
 <style>
-#s3-manager input[type="file"]{
+
+
+.upload-queue{
+	margin-bottom: 10px;
+}
+
+.upload-queue-item {
+	border: 1px solid #ddd;
+  background-color:#F5F5F5;
+  -webkit-border-radius:3px;
+  -moz-border-radius:3px;
+  border-radius:3px;
+  font-size:11px;
+  margin-top:5px;
+  max-width:500px;
+  padding:10px
+}
+
+
+.upload-progress {
+    background-color:#E5E5E5;
+    margin-top:10px;
+    width:100%
+}
+
+.upload-progress-bar {
+    background-color:#09F;
+    height:3px;
+    width:1px
+}
+
+.upload-queue-item .actions i {
+    float:right;
+    height:16px;
+    width:16px;
+    color: #333;
+}
+
+.s3-manager .file-input-container {
+	border: 1px dashed #ddd;
+	background-color: #F7F7F7; 
+}
+.s3-manager .file-input-container:hover {
+	border: 1px solid #ddd;
+}
+
+.s3-manager .file-input-text {
+  padding-top: 3em;
+	position: absolute;
+  margin: auto 30%;
+}
+
+.s3-manager input[type="file"]{
+	opacity: 0;
+  padding-bottom: 4em;
+  padding-top: 2em;
+  width: 100%;
+}
+.s3-manager input[type="file"]:after {
+    display: block;
+    min-width: 20em;
+    margin: auto 40%;
+}
+/*.s3-manager input[type="file"]:hover{
+  border: 1px dashed #67a5c5;
+}*/
+
+/*.s3-manager input[type="file"]{
   padding-bottom: 4em;
   padding-top: 2em;
   width: 100%;
   border: 1px dashed #000;
 }
 
-#s3-manager input[type="file"]:after {
+.s3-manager input[type="file"]:after {
     content: "Drag and drop files to upload (or click)";
     display: block;
     min-width: 20em;
     margin: auto 40%;
 }
 
-#s3-manager input[type="file"]:hover{
+.s3-manager input[type="file"]:hover{
   border: 1px dashed #67a5c5;
 }
 
-.label-progress-bar {
-    float: left;
-    margin-right: 1em;
+
+.file-dropzone {
+	width: 500px;
+	height: 100px;
+	border-style:dashed;	border-width: 1px;
 }
+
+.file-dropzone input[type="file"]{
+	display: none;
+}
+
+.file-dropzone-text {
+	padding: 40px;
+}
+*/
+
+
+
 </style>
 
-
-<div id="s3-manager">
+<div class="s3-manager">
 		<%= react_component('Repository', {
 			files_url: '/get_files_as_tree',
 			auth_sign_url: '/sign_auth_upload',
@@ -36,9 +116,6 @@
 			logging: false
 		}) %>
 </div>
-
-
-
 
 
 <!-- 

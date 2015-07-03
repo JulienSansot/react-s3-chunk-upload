@@ -89,42 +89,46 @@ var RepositoryUpload = React.createClass({
 	},
 
 	render: function(){
-
 		var filesNodes = this.state.files.map(function(file) {
 
+			var percent = Math.round(file.progress * 100);
+
 			var style = {
-				width: (file.progress * 100) + '%'
+				width: percent + '%'
 			}
 
       return (
-      	<div key={file.name}>
-					<span className="label-progress-bar">
-					{file.name}
-					&nbsp;
-					<button type="button"
-						onClick={this.onCancel.bind(this, file)}
-						className="btn btn-danger btn-xs">
-						cancel
-					</button>
-					&nbsp;
 
-					</span>
-
-					<div className="progress">
-					  <div className="progress-bar progress-bar-striped active" style={style}></div>
-					</div>
-
+      	<div className="upload-queue-item" key={file.name}>
+          <div className="actions">
+              <a href="#" onClick={this.onCancel.bind(this, file)} ><i className="fa fa-times"></i></a>
+              <a href="#"><i className="fa fa-stop"></i></a>
+              <a href="#"><i className="fa fa-pause"></i></a>
+              <a href="#"><i className="fa fa-play"></i></a>
+          </div>
+          <span >{file.name}</span>
+          <span > - {percent}%</span>
+          <div className="upload-progress">
+              <div className="upload-progress-bar" style={style}></div>
+          </div>
       	</div>
       )
     }, this);
 
 		return (
 			<div>
-				<input type="file" multiple onChange={this.selectFiles} />
+				<div className="file-input-text">Drag and drop files to upload (or click)</div>
+				<div className="file-input-container">
+					<input type="file" multiple onChange={this.selectFiles} />
+				</div>
+
 				<br/>
-				{filesNodes}
+				<div className="upload-queue">
+					{filesNodes}
+      	</div>
       </div>
     )
 	}
 });
+
 
