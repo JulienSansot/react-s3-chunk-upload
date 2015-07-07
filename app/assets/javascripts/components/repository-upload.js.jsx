@@ -59,8 +59,10 @@ var RepositoryUpload = React.createClass({
 				file.evaporate = evaporate;
       	file.file_id = ++self.file_id;
 
+      	var url = (self.props.path_prefix||'') + self.state.path + file.name;
+
 				evaporate.add({
-	        name: self.state.path + '' + files[i].name,
+	        name: url,
 	        file: file,
 	     //    signParams: {
 						// foo: 'bar'
@@ -83,7 +85,8 @@ var RepositoryUpload = React.createClass({
 	           // console.log('---warn');
 	        },
 	        error: function(){
-	           console.log('---error');
+	        	file.error = true;
+						self.refreshFilesState();
 	        }
 				});
 
@@ -96,11 +99,13 @@ var RepositoryUpload = React.createClass({
 
 	onStop: function(file, e){
     e.preventDefault();
-    if(file.completed){
+    if(file.completed || file.error){
     	this.removeFile(file);
     }
     else{
-    	file.upload.stop();
+    	if(file.upload.stop){
+	    	file.upload.stop();
+	    }
     }
 	},
 
@@ -129,9 +134,13 @@ var RepositoryUpload = React.createClass({
 				width: percent + '%'
 			}
 
+		  var classes = 'upload-queue-item'
+
+		  file.error &&	(classes += ' error');
+
       return (
 
-      	<div className="upload-queue-item" key={file.file_id}>
+      	<div className={classes} key={file.file_id}>
           <div className="actions">
               <a href="#" onClick={this.onStop.bind(this, file)} ><i className="fa fa-times"></i></a>
           </div>
@@ -141,14 +150,18 @@ var RepositoryUpload = React.createClass({
 	           <span > - completed</span>
 	        }
 	        {
-	            !file.completed &&	            
+	            !file.completed && !file.error &&            
 		          <span > - {percent}%</span>
 	        }
 	        {
-	            !file.completed &&
+	            !file.completed && !file.error  &&
 		          <div className="upload-progress">
 		              <div className="upload-progress-bar" style={style}></div>
 		          </div>
+	        }
+	        {
+	            file.error  &&      
+		          <span > - An error occured</span>
 	        }
 
       	</div>

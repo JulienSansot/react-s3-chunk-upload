@@ -15,8 +15,8 @@ var RepositoryTablePath = React.createClass({
     var path = this.props.path || '';
 
     var full_path = '';
-    _.each(path.split('/'), function(folder){
-      if(folder != ''){        
+    _.each(path.split('/'), function(folder) {
+      if(folder != '') {
         full_path += folder + '/'
         folders.push({
           full_path: full_path,
@@ -25,7 +25,7 @@ var RepositoryTablePath = React.createClass({
       }
     });
 
-    var folderNodes = folders.map(function(folder){
+    var folderNodes = folders.map(function(folder) {
       return (
          <RepositoryTablePathNode
             key={folder.full_path}

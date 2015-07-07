@@ -241,6 +241,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
            initiate.onErr = function(xhr){
               l.d('onInitiateError for FileUpload ' + me.id);
               setStatus(ERROR);
+              me.error();
            };
 
            initiate.on200 = function(xhr){
@@ -632,14 +633,21 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
                  }
               };
 
-              xhr.onerror = function(){requester.onErr(xhr,true);};
+              xhr.onerror = function(){
+                requester.onErr(xhr,true);
+              };
 
               if (typeof requester.onProgress == 'function'){
                  xhr.upload.onprogress = function(evt){
                     requester.onProgress(evt);
                  };
               }
-              xhr.send(payload);
+              try{
+                xhr.send(payload);
+              }
+              catch(ex){
+               console.log('--catch--');
+              }
            };
 
            requester.onFailedAuth = requester.onFailedAuth || function(xhr){

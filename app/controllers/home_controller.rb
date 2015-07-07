@@ -69,6 +69,44 @@ class HomeController < ApplicationController
 		render json: nil
 	end
 
+	def cut_paste_files
+
+		copy_files(params[:files], params[:folders], params[:destination], true)
+
+		render json: nil
+	end
+
+
+	def copy_paste_files
+
+		copy_files(params[:files], params[:folders], params[:destination], false)
+
+		render json: nil
+	end
+
+
+	def rename_file
+
+		if params[:old_key] != params[:new_key]
+
+			s3_client = get_s3_client
+
+			resp = s3_client.copy_object({
+			  bucket: @@s3_bucket,
+			  copy_source: @@s3_bucket + '/'  + params[:old_key],
+			  key: params[:new_key]
+			})
+
+			resp = s3_client.delete_object({
+			  bucket: @@s3_bucket,
+			  key: params[:old_key]
+			})
+
+		end
+
+		render json: nil
+	end
+
 
 
 	def sign_auth_upload
@@ -84,6 +122,60 @@ class HomeController < ApplicationController
 	end
 
 	private
+
+		def copy_files p_files, p_folders, p_destination, delete_source = false
+
+			s3_client = get_s3_client
+
+			files_to_move = (p_files || []).map{|file|
+				{
+					source_key: file,
+					destination: p_destination + file[file.rindex(/\//)+1..-1]
+				}
+			}
+
+			(p_folders||[]).each{ |folder|
+
+				resp = s3_client.list_objects(bucket: @@s3_bucket, prefix: folder)
+
+				folder_prefix = ''
+
+				last_slash_index = folder[0..-2].rindex(/\//)
+
+				if last_slash_index != nil
+					folder_prefix = folder[0..last_slash_index]
+				end
+
+				resp.contents.each{ |f|
+					files_to_move << {
+						source_key: f[:key],
+						destination: p_destination + f[:key][folder_prefix.length..-1]
+					}
+				}
+			}
+
+			files_to_move.each{ |file|
+
+				if file[:source_key] != file[:destination]
+
+					resp = s3_client.copy_object({
+					  bucket: @@s3_bucket,
+					  copy_source: @@s3_bucket + '/'  + file[:source_key],
+					  key: file[:destination]
+					})
+
+					if delete_source
+
+						resp = s3_client.delete_object({
+						  bucket: @@s3_bucket,
+						  key: file[:source_key]
+						})
+
+					end
+
+				end
+			}
+		end
 
 		def s3_get_tree path
 

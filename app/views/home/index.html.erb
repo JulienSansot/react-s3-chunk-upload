@@ -1,11 +1,14 @@
 
-
 <div class="s3-manager">
 		<%= react_component('Repository', {
       files_url: '/get_files_as_tree',
 			create_folder_url: '/create_folder',
       auth_sign_url: '/sign_auth_upload',
-			delete_files_url: '/delete_files',
+      delete_files_url: '/delete_files',
+      cut_paste_files_url: '/cut_paste_files',
+      copy_paste_files_url: '/copy_paste_files',
+			rename_file_url: '/rename_file',
+      path_prefix: 'sub_folder/',
 			s3_options:{
 				access_key: Rails.application.secrets.s3_access_key,
 				bucket: Rails.application.secrets.s3_bucket,
@@ -33,6 +36,13 @@
   margin-top:5px;
   max-width:500px;
   padding:10px
+}
+
+
+.upload-queue-item.error {
+  border-color: #f2dede;
+  background-color: #f2dede;
+  color: #a94442;
 }
 
 
@@ -81,5 +91,12 @@
     display: block;
     min-width: 20em;
     margin: auto 40%;
+}
+
+.s3-manager table .form-control {
+    display: inline;
+    height: 25px;
+    width: 60%;
+    padding: 5px;
 }
 </style>

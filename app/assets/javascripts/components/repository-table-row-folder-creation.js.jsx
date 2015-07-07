@@ -45,17 +45,21 @@ var RepositoryTableRowFolderCreation = React.createClass({
       loading: true
     }, function(){
 
-      var folder_path = this.props.path + folder_name + '/';
+      var folder_path = (this.props.path_prefix||'') + this.props.path + folder_name + '/';
 
-      $.getJSON(this.props.create_folder_url + "?folder_path=" + folder_path, function(response) {
+      $.post(this.props.create_folder_url, {
+          folder_path: folder_path
+        },
+        function(response){
 
-      	this.setState({
+        this.setState({
           loading: false
         });
 
         this.props.onFolderCreated();
+        }.bind(this)
+      );
 
-      }.bind(this));
     });
 	},
 

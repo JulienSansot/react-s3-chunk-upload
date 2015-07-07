@@ -10,9 +10,9 @@ var RepositoryTableRowFolder = React.createClass({
   	return (
   		<tr>
         <td onClick={this.props.onCheckItem}><i className={"fa " + icon}></i></td>
-  			<td onClick={this.props.onGoIntoFolder}>
-  				<i className='fa fa-folder'></i>&nbsp;
-  				<a href="#">{this.props.folder.name}</a>
+  			<td>
+  				<i onClick={this.props.onGoIntoFolder} className='fa fa-folder'></i>&nbsp;
+  				<a onClick={this.props.onGoIntoFolder} href="#">{this.props.folder.name}</a>
   			</td>
         <td></td>
   		</tr>

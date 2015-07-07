@@ -8,21 +8,21 @@ If one chunk fails, the browser doesn't have to resend the whole file but just t
 The back-end is in ruby on rails but it should be easy to make a different back-end.
 The most interesting part of this project is the front-end.
 
+At the moment it looks like that: 
+![screenshot](https://raw.githubusercontent.com/Kalagan/react-s3-chunk-upload/master/pic.png)
+
 ### Features :
 * Browse files and folders
 * upload files
 * create folders
 * delete files and folders
-
-
-At the moment it looks like that: 
-![screenshot](https://raw.githubusercontent.com/Kalagan/react-s3-chunk-upload/master/pic.png)
+* cut and paste files
+* copy and paste files
+* rename a file
 
 
 #### TODO :
 * sorting by name or size
-* cut and paste (rename)
-* copy and paste
 * download file
 
 
