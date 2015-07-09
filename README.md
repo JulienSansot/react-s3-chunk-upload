@@ -15,9 +15,9 @@ At the moment it looks like that:
 * Browse files and folders
 * upload files
 * create folders
-* delete files and folders
-* cut and paste files
-* copy and paste files
+* delete files/folders
+* cut and paste files/folders
+* copy and paste files/folders
 * rename a file
 * download file
 
