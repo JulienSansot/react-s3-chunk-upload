@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   post '/cut_paste_files' => 'home#cut_paste_files'
   post '/copy_paste_files' => 'home#copy_paste_files'
   post '/rename_file' => 'home#rename_file'
+  get '/file_download_url' => 'home#file_download_url'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

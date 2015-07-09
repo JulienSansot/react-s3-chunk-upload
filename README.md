@@ -19,11 +19,11 @@ At the moment it looks like that:
 * cut and paste files
 * copy and paste files
 * rename a file
+* download file
 
 
 #### TODO :
 * sorting by name or size
-* download file
 
 
 ##### Major dependencies :

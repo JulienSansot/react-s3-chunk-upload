@@ -203,6 +203,7 @@ var RepositoryTable = React.createClass({
         editing={!!file.rename}
         onCheckItem={this.onCheckItem.bind(this, file, 'file')}
         rename_file_url={this.props.rename_file_url}
+        download_file_url={this.props.download_file_url}
         onFileRenamed={this.onFileRenamed} />
     }, this);
 
@@ -269,7 +270,7 @@ var RepositoryTable = React.createClass({
                 }
               </th>
               <th>Name</th>
-              <th>Size</th>
+              <th style={{width: '10%'}}>Size</th>
             </tr>
           </thead>
 	      	<tbody>
@@ -288,12 +289,6 @@ var RepositoryTable = React.createClass({
            <span>&nbsp;Emtpy folder</span>
         }
         {
-       //  <br/>
-       //  <br/>
-       //  <br/>
-       //  <br/>
-       //  <pre>{JSON.stringify(this.state.files, null, 2)}</pre>
-	      // <pre>{JSON.stringify(this.state.folders, null, 2)}</pre>
         }
     	</div>
     )

@@ -107,6 +107,22 @@ class HomeController < ApplicationController
 		render json: nil
 	end
 
+	def file_download_url
+
+		s3 = Aws::S3::Resource.new({
+			access_key_id: @@s3_access_key,
+		  secret_access_key: @@s3_secret_key,
+		  region: @@s3_region
+		})
+
+		obj = s3.bucket(@@s3_bucket).object(params[:key])
+
+		url = obj.presigned_url(:get, expires_in: 4);
+
+    render :text => url, :status => 200 and return
+
+	end
+
 
 
 	def sign_auth_upload

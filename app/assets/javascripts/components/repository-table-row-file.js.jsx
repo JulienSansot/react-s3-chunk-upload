@@ -93,6 +93,22 @@ RepositoryTableRowFile = React.createClass({
     }
   },
 
+  handleDownload: function (event) {
+    event.preventDefault();
+
+    var url = this.props.download_file_url + '?key=' + this.props.file.key;
+
+    $.get(url, function(response) {
+
+      var link = document.createElement('a');
+      link.href = response;
+      link.tarket = '_blank';
+      document.body.appendChild(link);
+      link.click();
+
+    });
+  },
+
   render: function() {
 
     var icon = this.props.file.checked ? 'fa-check-square-o': 'fa-square-o';
@@ -117,6 +133,7 @@ RepositoryTableRowFile = React.createClass({
           <span>
             <i className='fa fa-file-o'></i>
             &nbsp;{this.state.file_name}
+            &nbsp;<i onClick={this.handleDownload} style={{cursor: 'pointer'}} className="file-download fa fa-download"></i>
             {
               this.state.loading &&
               <span>&nbsp;<img width="20" height="20" src="/assets/loader.gif" /></span>
@@ -126,7 +143,7 @@ RepositoryTableRowFile = React.createClass({
     }
 
   	return (
-  		<tr>
+  		<tr className="file-row" >
         <td onClick={this.props.onCheckItem} ><i className={"fa " + icon}></i></td>
   			<td>
   				{cell}

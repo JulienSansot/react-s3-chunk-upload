@@ -42,7 +42,8 @@ var Repository = React.createClass({
 					path_prefix={this.props.path_prefix}
 					cut_paste_files_url={this.props.cut_paste_files_url} 
 					copy_paste_files_url={this.props.copy_paste_files_url}
-					rename_file_url={this.props.rename_file_url} />
+					rename_file_url={this.props.rename_file_url}
+					download_file_url={this.props.download_file_url} />
       </div>
     )
 	}

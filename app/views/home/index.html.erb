@@ -7,7 +7,8 @@
       delete_files_url: '/delete_files',
       cut_paste_files_url: '/cut_paste_files',
       copy_paste_files_url: '/copy_paste_files',
-			rename_file_url: '/rename_file',
+      rename_file_url: '/rename_file',
+			download_file_url: '/file_download_url',
       path_prefix: 'sub_folder/',
 			s3_options:{
 				access_key: Rails.application.secrets.s3_access_key,
@@ -22,11 +23,11 @@
 
 <style>
 
-.upload-queue{
+.s3-manager .upload-queue{
   margin-bottom: 10px;
 }
 
-.upload-queue-item {
+.s3-manager .upload-queue-item {
   border: 1px solid #ddd;
   background-color:#F5F5F5;
   -webkit-border-radius:3px;
@@ -39,26 +40,26 @@
 }
 
 
-.upload-queue-item.error {
+.s3-manager .upload-queue-item.error {
   border-color: #f2dede;
   background-color: #f2dede;
   color: #a94442;
 }
 
 
-.upload-progress {
+.s3-manager .upload-progress {
     background-color:#E5E5E5;
     margin-top:10px;
     width:100%
 }
 
-.upload-progress-bar {
+.s3-manager .upload-progress-bar {
     background-color:#09F;
     height:3px;
     width:1px
 }
 
-.upload-queue-item .actions i {
+.s3-manager .upload-queue-item .actions i {
     float:right;
     height:16px;
     width:16px;
@@ -98,5 +99,14 @@
     height: 25px;
     width: 60%;
     padding: 5px;
+}
+
+
+.s3-manager .file-row .file-download {
+    display: none;
+}
+
+.s3-manager .file-row:hover .file-download {
+    display: inline-block;
 }
 </style>
