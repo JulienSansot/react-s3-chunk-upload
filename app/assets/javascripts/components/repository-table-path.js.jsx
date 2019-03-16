@@ -4,7 +4,7 @@ var RepositoryTablePath = React.createClass({
   changeFolder: function(folder, event){
     this.props.onChangeFolder.apply(this, arguments);
   },
-  
+
   render: function(){
 
     var folders = [{
@@ -48,7 +48,7 @@ var RepositoryTablePathNode = React.createClass({
   render: function(){
     return (
       <a href="#" onClick={this.props.onChangeFolder}>
-        &nbsp;{this.props.folder.name}/ 
+        &nbsp;{this.props.folder.name}/
       </a>
     )
   }

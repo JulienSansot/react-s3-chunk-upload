@@ -33,7 +33,7 @@ var RepositoryTable = React.createClass({
   },
 
   componentDidMount: function() {
-  	this.loadFiles();
+    this.loadFiles();
   },
 
   onChangeFolder: function (new_folder, event) {
@@ -195,8 +195,8 @@ var RepositoryTable = React.createClass({
         )
     }, this);
 
-  	var fileRows = this.state.files.map(function(file) {
-		  return <RepositoryTableRowFile      
+    var fileRows = this.state.files.map(function(file) {
+      return <RepositoryTableRowFile
         ref={"file_" + file.key}
         key={file.key}
         file={file}
@@ -211,7 +211,7 @@ var RepositoryTable = React.createClass({
     var checkedFiles = _.where(this.state.files, {'checked': true});
 
     return (
-    	<div>
+      <div>
         <button type="button" className="btn btn-primary btn-xs"
           onClick={this.onTriggerCreateFolder}>
           Create Folder
@@ -229,7 +229,7 @@ var RepositoryTable = React.createClass({
           Delete
         </button>
         {
-          this.state.deleting &&          
+          this.state.deleting &&
           <span>&nbsp;<img width="20" height="20" src="/assets/loader.gif" /></span>
         }
         &nbsp;
@@ -255,12 +255,12 @@ var RepositoryTable = React.createClass({
           this.state.pasting &&
           <img width="20" height="20" src="/assets/loader.gif" />
         }
-    		<div>
+        <div>
           <RepositoryTablePath
           path={this.state.path}
           onChangeFolder={this.onChangeFolder} />
         </div>
-	      <table style={{marginBottom: 0}} className="table table-bordered table-hover table-condensed">
+        <table style={{marginBottom: 0}} className="table table-bordered table-hover table-condensed">
           <thead>
             <tr>
               <th style={{width: '25px', padding:'0 0 5px 2px'}}>
@@ -273,7 +273,7 @@ var RepositoryTable = React.createClass({
               <th style={{width: '10%'}}>Size</th>
             </tr>
           </thead>
-	      	<tbody>
+          <tbody>
             <RepositoryTableRowFolderCreation
               ref="create_folder"
               path={this.state.path}
@@ -281,16 +281,16 @@ var RepositoryTable = React.createClass({
               onFolderCreated={this.onFolderCreated}
               path_prefix={this.props.path_prefix} />
             {folderRows}
-		        {fileRows}
-	      	</tbody>
-	      </table>
+            {fileRows}
+          </tbody>
+        </table>
         {
             !this.state.loading && this.state.files.length == 0 && this.state.folders.length == 0 &&
            <span>&nbsp;Emtpy folder</span>
         }
         {
         }
-    	</div>
+      </div>
     )
   }
 });

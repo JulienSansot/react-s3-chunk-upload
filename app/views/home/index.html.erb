@@ -1,22 +1,22 @@
 
 <div class="s3-manager">
-		<%= react_component('Repository', {
+    <%= react_component('Repository', {
       files_url: '/get_files_as_tree',
-			create_folder_url: '/create_folder',
+      create_folder_url: '/create_folder',
       auth_sign_url: '/sign_auth_upload',
       delete_files_url: '/delete_files',
       cut_paste_files_url: '/cut_paste_files',
       copy_paste_files_url: '/copy_paste_files',
       rename_file_url: '/rename_file',
-			download_file_url: '/file_download_url',
+      download_file_url: '/file_download_url',
       path_prefix: 'sub_folder/',
-			s3_options:{
-				access_key: Rails.application.secrets.s3_access_key,
-				bucket: Rails.application.secrets.s3_bucket,
-				url: Rails.application.secrets.s3_url
-			},
-			logging: false
-		}) %>
+      s3_options:{
+        access_key: Rails.application.secrets.s3_access_key,
+        bucket: Rails.application.secrets.s3_bucket,
+        url: Rails.application.secrets.s3_url
+      },
+      logging: false
+    }) %>
 </div>
 
 

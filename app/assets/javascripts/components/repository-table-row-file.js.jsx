@@ -71,7 +71,7 @@ RepositoryTableRowFile = React.createClass({
     });
   },
 
-  handleSubmit: function (event) {    
+  handleSubmit: function (event) {
     this.setState({editing: false});
 
     if(this.state.edited == false){
@@ -147,7 +147,7 @@ RepositoryTableRowFile = React.createClass({
         <td onClick={this.props.onCheckItem} ><i className={"fa " + icon}></i></td>
   			<td>
   				{cell}
-  			</td>        
+  			</td>
         <td>
           {this.props.file.size_pretty}
         </td>
